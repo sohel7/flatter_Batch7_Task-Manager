@@ -9,7 +9,7 @@ class InPorgressScreen extends StatelessWidget {
     return ListView.separated(
       itemCount: 20,
       itemBuilder: (context, index) {
-        return const TaskCard();
+      //  return const TaskCard();
       },
       separatorBuilder: (context, index) {
         return const SizedBox(

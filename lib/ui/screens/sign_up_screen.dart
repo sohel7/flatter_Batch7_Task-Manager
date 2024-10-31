@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:task_manager_project/data/modules/network_response.dart';
+import 'package:task_manager_project/data/models/network_response.dart';
 import 'package:task_manager_project/data/service/network_caller.dart';
 import 'package:task_manager_project/data/utls/urls.dart';
 import 'package:task_manager_project/ui/widgets/center_circular_progress_indecator.dart';
