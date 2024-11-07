@@ -17,7 +17,6 @@ class TaskCard extends StatefulWidget {
   final TaskModel taskModel;
   final VoidCallback onRefreshList;
 
-
   @override
   State<TaskCard> createState() => _TaskCardState();
 }
@@ -47,8 +46,8 @@ class _TaskCardState extends State<TaskCard> {
           children: [
             Text(widget.taskModel.title ?? '',
                 style: Theme.of(context).textTheme.titleMedium),
-             Text(widget.taskModel.description ?? '',),
-             Text('DATE: ${widget.taskModel.createdDate ?? ''}'),
+            Text(widget.taskModel.description ?? '',),
+            Text('DATE: ${widget.taskModel.createdDate ?? ''}'),
             const SizedBox(
               height: 12,
             ),
@@ -71,7 +70,7 @@ class _TaskCardState extends State<TaskCard> {
                       ),
                     ),
                     Visibility(
-                      visible: _deleteTaskInprogress==true,
+                      visible: _deleteTaskInprogress==false,
                       replacement: const CenteredSirculerProgressIndecator(),
                       child: IconButton(
                         onPressed: _onTapDeleteButton,
@@ -92,7 +91,7 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   void _onTapEditButton() {
-    print(_selectedStatus);
+   // print(_selectedStatus);
     showDialog(
         context: context,
         builder: (context) {
@@ -102,7 +101,7 @@ class _TaskCardState extends State<TaskCard> {
             content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: ['New', 'Completed', 'In-Progress', 'Canceled'].map(
-                  (e) {
+                      (e) {
                     return ListTile(
                       onTap: () {
                         _changeStatus(e);
@@ -143,9 +142,10 @@ class _TaskCardState extends State<TaskCard> {
 
   Widget _buildTaskStatusChip() {
     return Chip(
-      label: const Text(
-        'New',
-        style: TextStyle(
+      label:  Text(
+        widget.taskModel.status ?? '',
+      //  widget.taskModel.status!,
+        style:  const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
@@ -157,6 +157,8 @@ class _TaskCardState extends State<TaskCard> {
     );
   }
 
+
+
   Future<void> _changeStatus(String newStatus) async {
     _changeStatusInprogress = true;
     setState(() {});
@@ -164,11 +166,11 @@ class _TaskCardState extends State<TaskCard> {
         url: Urls.changStatus(widget.taskModel.sId!, newStatus));
     if(response.isSuccess){
       widget.onRefreshList();
-
     }else{
       _changeStatusInprogress = false;
-      showSnackbarMessage(context, response.errorMessage);
       setState(() {});
+      showSnackbarMessage(context, response.errorMessage);
+
     }
   }
 }

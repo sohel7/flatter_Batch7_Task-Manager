@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:task_manager_project/data/models/login_model.dart';
 import 'package:task_manager_project/data/models/network_response.dart';
 import 'package:task_manager_project/data/service/network_caller.dart';
 import 'package:task_manager_project/data/utls/urls.dart';
@@ -165,8 +166,10 @@ class _LoginScreenState extends State<LoginScreen> {
         await NetworkColler.postRequest(url: Urls.login, body: requestBody);
     _inProgress = false;
     if (response.isSuccess) {
+      LoginModel loginModel = LoginModel.fromJson(response.responseData);
       // this line for save token
-      await AuthController.saveAccessToken(response.responseData['token']);
+      await AuthController.saveAccessToken(loginModel.token!);
+      await AuthController.saveUserData(loginModel.data!.first);
       // then naviget to the page
       Navigator.pushAndRemoveUntil(
           context,
